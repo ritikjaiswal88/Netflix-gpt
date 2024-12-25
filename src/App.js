@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
+import Body from './components/Body.js';
 
 function App() {
   return (
-    <div className="App">
-      <div className='text-6xl'>hello</div>
-    </div>
+    <Body/>
   );
 }
 
