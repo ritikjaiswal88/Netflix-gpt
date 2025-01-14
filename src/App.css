@@ -2,6 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-input {
-    color: rgba(79, 76, 76, 0.636);
-}
