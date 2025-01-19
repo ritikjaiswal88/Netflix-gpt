@@ -1,12 +1,15 @@
 import { auth } from "../utils/firebase";
 import { signOut } from "firebase/auth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import {addUser, removeUser } from "../utils/userSlice";
+import { onAuthStateChanged } from "firebase/auth";
+import { LOGO } from "../utils/constants";
 
 const Header = () => {
     const navigate = useNavigate();
     const user = useSelector((store) => store.user);
-
     const handleSignOut = () => {
         signOut(auth)
             .then(() => {
@@ -18,12 +21,29 @@ const Header = () => {
                 navigate("/error");
             });
     };
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const { uid, email, displayName ,photoURL } = user;
+                dispatch(addUser({ uid: uid, email: email, displayName: displayName, photoURL: photoURL}));
+                navigate("/browse")
+            } else {
+                dispatch(removeUser());
+                navigate("/")
+            }
+        });
+    
+        // Cleanup the subscription
+        return () => unsubscribe();
+    }, []);
 
     return (
         <div className="absolute pt-5 pl-32 top-0 left-0 w-full z-[1000] flex justify-between">
             <img
                 className="h-10"
-                src="https://images.ctfassets.net/y2ske730sjqp/821Wg4N9hJD8vs5FBcCGg/9eaf66123397cc61be14e40174123c40/Vector__3_.svg?w=460"
+                src = {LOGO}
                 alt="Logo"
             />
             { user && (<div className="flex">

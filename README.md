@@ -15,6 +15,8 @@
   - create ReduxStore with userSlice 
   - impliment signOut
   - update profile 
+  - Bugfix : sign up user displayName and profile picture update
+  - Bugfix : if user is not Signin redirect to login page
   - fetch from DMDB movies
 
 # Features 
