@@ -1,16 +1,18 @@
 import Header from "./Header";
 import { useRef, useState } from "react";
 import { CheckValidationData } from "../utils/validation";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, } from "firebase/auth";
-import { auth } from "../utils/firebase";
 import { useNavigate} from "react-router-dom";
-import { updateProfile } from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword , updateProfile} from "firebase/auth";
+import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { USER_AVETAR } from "../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [erroMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const name = useRef(null);
   const email = useRef(null);
@@ -33,40 +35,44 @@ const Login = () => {
         email.current.value,
         password.current.value
       )
-        .then((userCredential) => {
-          // Signed up
-          const user = userCredential.user;
-          updateProfile(user, {
-            displayName: name.current.value, photoURL: "https://occ-0-2164-395.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABXSR25u2XRPTi6AgkfJ4w3FcrNCA316cdzfpppcKJObwDgcSvlN3UJOZ1x-rktlH2aRLsZCgsUwhCso2YeWQDPwDoRFGYsE.png?r=85b"
-          }).then(() => {
-            const { uid, email, displayName ,photoURL } = auth.currentUser;
-            dispatch(addUser({ uid: uid, email: email, displayName: displayName, photoURL: photoURL}));
-            navigate("/browse");
-          }).catch((error) => {
-            setErrorMessage(error.message)
-          });
+      .then((userCredential) => {
+        // Signed up 
+        const user = userCredential.user;
+        //updating profile -  
+        updateProfile(user, {
+          displayName: name.current.value, photoURL: USER_AVETAR
+        }).then(() => {
+          const { uid, email, displayName ,photoURL } = auth.currentUser;
+          dispatch(addUser({ uid: uid, email: email, displayName: displayName, photoURL: photoURL}));
           navigate("/browse");
-        })
+        }).catch((error) => {
+          setErrorMessage(error.message)
+        });
+
+        navigate("/browse")
+      })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           setErrorMessage(errorCode + " - " + errorMessage);
         });
     } else {
-      // singn in
-      signInWithEmailAndPassword(auth, email.current.value,
-        password.current.value)
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          navigate("/browse");
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          setErrorMessage(errorCode + " - " + errorMessage);
-        });
-    }
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    navigate("/browse")
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+  console.log("sighn in successful")
+  }
   };
 
   const toggleSignInform = () => {
