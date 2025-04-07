@@ -18,21 +18,6 @@ const Body =()=>{
         },
     ]);
 
-    // useEffect(() => {
-    //     const unsubscribe = onAuthStateChanged(auth, (user) => {
-    //         if (user) {
-    //             const { uid, email, displayName ,photoURL } = user;
-    //             dispatch(addUser({ uid: uid, email: email, displayName: displayName, photoURL: photoURL}));
-    //         } else {
-    //             dispatch(removeUser());
-    //         }
-    //     });
-    
-        // Cleanup the subscription
-    //     return () => unsubscribe();
-    // }, []);
-
-    
     
     return(
         <>

@@ -27,6 +27,12 @@
   - Planning for MainConatiner secondaryConatainer
   - Fetch Data for Trailer Video
   - Update Store with Trailer Video Data
+  - Build Secondary container
+  - movie list
+  - movie card
+  - TMDB image CDN URL
+  - made brouse page look good using tailwind css
+  - createad costom hook for useNowPlayingMovies , UsePopularMovies, useTopRatedMovies, useUpcomingMovies.
   
 
 # Features 
