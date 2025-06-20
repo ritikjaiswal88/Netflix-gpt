@@ -2,7 +2,7 @@
   "name": "netflix-gpt",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ritikjaiswal88.github.io/netflix-gpt",
+  "homepage": "https://ritikjaiswal88.github.io/Netflix-gpt",
   "dependencies": {
     "@google/generative-ai": "^0.24.0",
     "@testing-library/dom": "^10.4.0",
